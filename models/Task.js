@@ -1,10 +1,17 @@
 const mongoose = require("mongoose");
-
-const taskSchema = new mongoose.Schema({
+const TaskSchema = new mongoose.Schema({
   title: String,
   description: String,
-  completed: { type: Boolean, default: false },
+  category: { 
+    type: String, 
+    enum: ["Study", "Sports", "Leisure", "Food", "Entertainment"], 
+    required: true 
+  },
+  status: { 
+    type: String, 
+    enum: ["ToDo", "In-Progress", "Done"], 
+    default: "ToDo" 
+  },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
 });
-
-module.exports = mongoose.model("Task", taskSchema);
+module.exports = mongoose.model("Task", TaskSchema);

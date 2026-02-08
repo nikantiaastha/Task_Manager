@@ -1,9 +1,10 @@
 const express = require("express");
+const router = express.Router();
 const Task = require("../models/Task");
 const auth = require("../middleware/auth");
+const mongoose = require("mongoose");
 
-const router = express.Router();
-
+// Basic CRUD
 router.post("/", auth, async (req, res) => {
   const task = new Task({ ...req.body, userId: req.user.id });
   await task.save();
@@ -15,14 +16,23 @@ router.get("/", auth, async (req, res) => {
   res.json(tasks);
 });
 
-router.put("/:id", auth, async (req, res) => {
-  const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.json(task);
+// STAGE 2: Analytics APIs
+// 1. Tasks per Category
+router.get("/stats/category", auth, async (req, res) => {
+  const stats = await Task.aggregate([
+    { $match: { userId: new mongoose.Types.ObjectId(req.user.id) } },
+    { $group: { _id: "$category", count: { $sum: 1 } } }
+  ]);
+  res.json(stats);
 });
 
-router.delete("/:id", auth, async (req, res) => {
-  await Task.findByIdAndDelete(req.params.id);
-  res.json({ msg: "Task deleted" });
+// 2. Tasks by Status
+router.get("/stats/status", auth, async (req, res) => {
+  const stats = await Task.aggregate([
+    { $match: { userId: new mongoose.Types.ObjectId(req.user.id) } },
+    { $group: { _id: "$status", count: { $sum: 1 } } }
+  ]);
+  res.json(stats);
 });
 
 module.exports = router;
