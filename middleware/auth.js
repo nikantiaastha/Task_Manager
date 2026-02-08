@@ -11,9 +11,12 @@ const auth = (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
-  } catch (err) {
+} catch (err) {
+    if (err.name === 'TokenExpiredError') {
+        return res.status(401).json({ msg: "Session Expired. Please login again." });
+    }
     res.status(401).json({ msg: "Token is invalid" });
-  }
+}
 };
 
 module.exports = auth;
