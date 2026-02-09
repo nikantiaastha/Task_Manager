@@ -8,10 +8,10 @@ function App() {
   return (
     <Router>
       <nav style={{ padding: '10px', background: '#333', color: '#fff' }}>
-        <Link to="/">Login</Link> 
-        <Link to="/register">Register</Link> 
-        <Link to="/dashboard"> Dashboard </Link> 
-        <Link to="/drive">Google Drive</Link>
+        <Link to="/">Login</Link> | 
+        <Link to="/register">Register</Link> | 
+        <Link to="/dashboard"> Dashboard </Link> | 
+        <Link to="/drive">Google Drive</Link> 
       </nav>
 
       <Routes>
