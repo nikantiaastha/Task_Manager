@@ -4,29 +4,27 @@ const Task = require("../models/Task");
 const auth = require("../middleware/auth");
 const mongoose = require("mongoose");
 
-// Basic CRUD
+
 router.post("/", auth, async (req, res) => {
   const task = new Task({ ...req.body, userId: req.user.id });
   await task.save();
-  res.json(task);
-});
+  res.json(task);});
 
 router.get("/", auth, async (req, res) => {
   const tasks = await Task.find({ userId: req.user.id });
   res.json(tasks);
 });
 
-// STAGE 2: Analytics APIs
-// 1. Tasks per Category
+
 router.get("/stats/category", auth, async (req, res) => {
   const stats = await Task.aggregate([
     { $match: { userId: new mongoose.Types.ObjectId(req.user.id) } },
     { $group: { _id: "$category", count: { $sum: 1 } } }
-  ]);
+]);
   res.json(stats);
-});
+}); 
 
-// 2. Tasks by Status
+
 router.get("/stats/status", auth, async (req, res) => {
   const stats = await Task.aggregate([
     { $match: { userId: new mongoose.Types.ObjectId(req.user.id) } },

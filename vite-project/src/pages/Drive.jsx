@@ -16,13 +16,13 @@ const Drive = () => {
           Authorization: token 
         }
       });
-      alert("File Uploaded to uploads/ folder! ✅");
+      alert("File Uploaded to uploads/ folder! ");
     } catch (err) { alert("Upload failed"); }
   };
 
   return (
     <div className="drive-container">
-      <h2>📂 Google Drive Clone (Stage 3)</h2>
+      <h2> Google Drive UPLOAD</h2>
       <input type="file" onChange={(e) => setFile(e.target.files[0])} />
       <button onClick={handleUpload}>Upload to Server</button>
     </div>

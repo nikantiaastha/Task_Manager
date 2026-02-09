@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const router = express.Router();
-const File = require("../models/File");
+const File = require(".../models/File");
 const auth = require("../middleware/auth");
 
 const storage = multer.diskStorage({
@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// Upload File
+
 router.post("/", auth, upload.single("file"), async (req, res) => {
   const newFile = new File({
     name: req.file.originalname,
@@ -23,7 +23,7 @@ router.post("/", auth, upload.single("file"), async (req, res) => {
   res.json(newFile);
 });
 
-// Create Logical Folder
+
 router.post("/folder", auth, async (req, res) => {
   const folder = new File({
     name: req.body.name,

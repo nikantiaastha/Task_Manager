@@ -10,7 +10,7 @@ const Login = () => {
       const res = await axios.post("http://localhost:5000/api/users/login", formData);
       localStorage.setItem("token", res.data.token); 
       alert("Login Successful!");
-      window.location.href = "/dashboard"; // Redirect logic
+      window.location.href = "/dashboard";
     } catch (err) {
       alert(err.response.data.msg || "Login Failed");
     }
